@@ -22,7 +22,7 @@ export class MainMapComponent {
       zoom: this.zoom
     });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+      attribution: ''
     }).addTo(this.map);
     this.map.invalidateSize();
   }
