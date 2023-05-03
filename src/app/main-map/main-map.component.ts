@@ -42,6 +42,12 @@ export class MainMapComponent {
         icon: customIcon,
       };
       const marker = L.marker(event.latlng, markerOptions).addTo(this.map);
+      marker.bindPopup('This is a marker popup').openPopup();
+      marker.on('click', (event: L.LeafletMouseEvent) => {
+      marker.openPopup();
     });
+    });
+
+    
   }
 }
