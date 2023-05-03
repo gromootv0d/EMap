@@ -19,7 +19,8 @@ export class MainMapComponent {
   private initMap(): void {
     this.map = L.map('map', {
       center: [this.lat, this.lng],
-      zoom: this.zoom
+      zoom: this.zoom,
+      attributionControl: false,
     });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: ''
