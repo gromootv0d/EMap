@@ -11,7 +11,7 @@ namespace EMap.Api.Controllers
     {
         private readonly AppDbContext _dbContext;
 
-        private readonly ILogger<MarkerController> _logger;
+        // private readonly ILogger<MarkerController> _logger;
 
         public MarkerController(AppDbContext dbContext)
         {
@@ -22,7 +22,7 @@ namespace EMap.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Marker>> GetMarkers()
         {
-            _logger.LogInformation("get markers");
+            // _logger.LogInformation("get markers");
             return await _dbContext.Markers.ToListAsync();
         }
 
@@ -30,7 +30,7 @@ namespace EMap.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostMarker([FromBody] Marker marker)
         {
-            _logger.LogInformation("post markers");
+            // _logger.LogInformation("post markers");
 
             if (marker == null)
             {

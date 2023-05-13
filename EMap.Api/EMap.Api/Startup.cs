@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using EMap.Api;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 public class Startup
 {
@@ -11,6 +13,9 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection")));
+
         services.AddControllers();
 
         services.AddSwaggerGen(c =>
