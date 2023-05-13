@@ -20,6 +20,7 @@ export class MainMapComponent {
 
   ngOnInit(): void {
     this.initMap();
+    this.fetchMarkerData();
   }
 
   private initMap(): void {
@@ -79,19 +80,20 @@ export class MainMapComponent {
     marker.closePopup();
   }
 
-  private saveMarker(lat: number, lng: number, description: string): void {
-    const markerData = { lat, lng };
+  private saveMarker(latitude: number, longitude: number, description: string): void {
+    const markerData = { latitude, longitude, description };
     console.log(markerData);
     
     // Send a POST request to your API to save the marker coordinates
-    this.http.post('https://your-api-endpoint.com/markers', markerData)
+    this.http.post('https://localhost:44367/Marker', markerData)
     .subscribe({
       next: (response) => {
         console.log('Marker saved successfully!', response);
         // Next handler code
       },
       error: (error) => {
-        console.error('Failed to save marker:', error);
+        console.error('Failed to save marker !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', error);
+        this.removeMarker();
         // Error handler code
       },
       complete: () => {
@@ -100,8 +102,48 @@ export class MainMapComponent {
     });      
   }
 
-  public keklog(){
-    console.log("kek");
-    
+  private removeMarker(): void {
+    console.log(this.marker);
+    // Remove the marker from the map\ 
+    console.log("error! marker removed!");
   }
+
+  private fetchMarkerData(): void {
+    this.http.get<Marker[]>('https://localhost:44367/Marker')
+      .subscribe(
+        (data: Marker[]) => {
+          console.log(data);
+          
+          data.forEach((markerData: Marker) => {
+            const { latitude, longitude, description } = markerData;
+            this.addMarkerToMap(latitude, longitude, description);
+          });
+        },
+        (error: any) => {
+          console.error('Failed to fetch marker data:', error);
+        }
+      );
+  }
+  
+
+  private addMarkerToMap(lat: number, lng: number, description: string): void {
+    const customIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/446/446075.png',
+      iconSize: [30, 30],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40],
+    });
+    const markerOptions = {
+      icon: customIcon,
+    };
+    const marker = L.marker([lat, lng], markerOptions).addTo(this.map);
+    marker.bindPopup(description).openPopup();
+  }
+  
+}
+
+interface Marker {
+  latitude: number;
+  longitude: number;
+  description: string;
 }
