@@ -1,5 +1,7 @@
 ﻿using EMap.Api.Models;
+using EMap.Api.Models.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMap.Api.Controllers
 {
@@ -7,32 +9,37 @@ namespace EMap.Api.Controllers
     [Route("[controller]")]
     public class MarkerController : ControllerBase
     {
-        private static List<Marker> markers = new List<Marker>();
+        private readonly AppDbContext _dbContext;
 
         private readonly ILogger<MarkerController> _logger;
 
-        public MarkerController(ILogger<MarkerController> logger)
+        public MarkerController(AppDbContext dbContext)
         {
-            _logger = logger;
+            _dbContext = dbContext;
         }
 
         // GET api/markers
         [HttpGet]
-        public IEnumerable<Marker> GetMarkers()
+        public async Task<IEnumerable<Marker>> GetMarkers()
         {
-            return markers;
+            _logger.LogInformation("get markers");
+            return await _dbContext.Markers.ToListAsync();
         }
 
         // POST api/markers
         [HttpPost]
-        public IActionResult PostMarker([FromBody] Marker marker)
+        public async Task<IActionResult> PostMarker([FromBody] Marker marker)
         {
+            _logger.LogInformation("post markers");
+
             if (marker == null)
             {
                 return BadRequest("Invalid marker data.");
             }
 
-            markers.Add(marker);
+            _dbContext.Markers.Add(marker);
+            await _dbContext.SaveChangesAsync();
+
             return Ok();
         }
     }

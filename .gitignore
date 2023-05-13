@@ -1,0 +1,61 @@
+# .NET Core and Visual Studio files
+.vscode/
+bin/
+obj/
+*.suo
+*.user
+*.vspscc
+*.vssscc
+*.csproj.user
+*.bak
+*.cache
+*.resharper
+*/[Bb]in/
+*/[Dd]ebug/
+*/[Rr]elease/
+*.log
+*.dll
+*.exe
+*.pdb
+*.cache
+*.tmp
+*.userprefs
+*.bak
+*.swp
+*.userprefs
+*.log
+*.vscode/
+*.sln.docstates
+# NuGet packages
+**/packages/
+*.nupkg
+debug/
+release/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.vspscc
+*.vssscc
+.builds
+
+# Visual Studio Code
+.vscode/
+.vs
+
+# JetBrains Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
