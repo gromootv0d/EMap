@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import * as L from 'leaflet';
 
@@ -13,6 +14,9 @@ export class MainMapComponent {
   private lat = 55.751244;
   private lng = 37.618423;
   private zoom = 13;
+
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.initMap();
@@ -31,7 +35,6 @@ export class MainMapComponent {
     this.map.invalidateSize();
 
     this.map.on('contextmenu', (event: L.LeafletMouseEvent) => {
-      
       const customIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/446/446075.png',
         iconSize: [30, 30],
@@ -42,12 +45,63 @@ export class MainMapComponent {
         icon: customIcon,
       };
       const marker = L.marker(event.latlng, markerOptions).addTo(this.map);
-      marker.bindPopup('This is a marker popup').openPopup();
-      marker.on('click', (event: L.LeafletMouseEvent) => {
-      marker.openPopup();
-    });
+
+      // Create the description input field
+    const descriptionInput = document.createElement('input');
+    descriptionInput.type = 'text';
+    descriptionInput.placeholder = 'Enter a description';
+
+    // Create the confirmation button
+    const confirmButton = document.createElement('button');
+    confirmButton.innerText = 'Confirm';
+    confirmButton.addEventListener('click', () => {
+      this.confirmMarker(marker, descriptionInput.value);
     });
 
+    // Create the popup content
+    const popupContent = document.createElement('div');
+    popupContent.appendChild(descriptionInput);
+    popupContent.appendChild(confirmButton);
+
+    marker.bindPopup(popupContent).openPopup();
+      marker.on('click', () => {
+        marker.openPopup();
+      });
+    });
+    }
+
+  private confirmMarker(marker: any,  description: string): void {
+    // Save the marker coordinates
+    const { lat, lng } = marker.getLatLng();
+    this.saveMarker(lat, lng, description);
+  
+    // Close the popup after confirmation
+    marker.closePopup();
+  }
+
+  private saveMarker(lat: number, lng: number, description: string): void {
+    const markerData = { lat, lng };
+    console.log(markerData);
+    
+    // Send a POST request to your API to save the marker coordinates
+    this.http.post('https://your-api-endpoint.com/markers', markerData)
+    .subscribe({
+      next: (response) => {
+        console.log('Marker saved successfully!', response);
+        // Next handler code
+      },
+      error: (error) => {
+        console.error('Failed to save marker:', error);
+        // Error handler code
+      },
+      complete: () => {
+        // Complete handler code
+      }
+    });      
+  }
+
+  public keklog(){
+    console.log("kek");
     
   }
 }
