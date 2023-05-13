@@ -34,7 +34,7 @@ export class MainMapComponent {
       
       const customIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/446/446075.png',
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [20, 40],
         popupAnchor: [0, -40],
       });
