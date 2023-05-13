@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace EMap.Api.Models.Database
 {
@@ -8,6 +9,7 @@ namespace EMap.Api.Models.Database
         public int Id { get; set; }
 
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
         public string Description { get; set; }
     }

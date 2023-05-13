@@ -38,7 +38,14 @@ namespace EMap.Api.Controllers
             }
 
             _dbContext.Markers.Add(marker);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
 
             return Ok();
         }

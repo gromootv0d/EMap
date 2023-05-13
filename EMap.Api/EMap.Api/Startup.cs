@@ -13,6 +13,14 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowOrigin",
+                builder => builder.WithOrigins("http://localhost:4200")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod());
+        });
+
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection")));
 
@@ -39,6 +47,7 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthorization();
+        app.UseCors("AllowOrigin");
 
         app.UseEndpoints(endpoints =>
         {

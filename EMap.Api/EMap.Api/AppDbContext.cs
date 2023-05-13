@@ -10,5 +10,19 @@ namespace EMap.Api
         }
 
         public DbSet<Marker> Markers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Marker>()
+                .HasIndex(m => m.Longitude)
+                .IsUnique();
+
+            modelBuilder.Entity<Marker>()
+                .HasIndex(m => m.Latitude)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }
